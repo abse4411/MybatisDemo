@@ -265,14 +265,14 @@ public class MybatisTest {
             EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
             Employee employee=new Employee();
 //            employee.setId(1);
-//            employee.setLastName("%D%");
+//            employee.setLastName("%tom%");
 //            employee.setEmail("1858489@qq.com");
 //            employee.setGender("0");
 //            List<Employee> emps = mapper.getEmpsByConditionIf(employee);
 //            List<Employee> emps = mapper.getEmpsByConditionTrim(employee);
 //            List<Employee> emps = mapper.getEmpsByConditionChoose(employee);
-
-            List<Employee> emps = mapper.getEmpsByConditionForeach(Arrays.asList(1, 2, 3, 4));
+//            List<Employee> emps = mapper.getEmpsByConditionForeach(Arrays.asList(1, 2, 3, 4));
+            List<Employee> emps = mapper.getEmpsTestInnerParameter(employee);
             for(Employee emp : emps)
                 System.out.println(emp);
             Assert.assertTrue(emps.size()>0);
@@ -326,6 +326,21 @@ public class MybatisTest {
             session.commit();
             System.out.println("Affected rows:"+result);
             Assert.assertTrue(result>0);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail();
+        }finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void testDynamicSql3() throws IOException {
+        SqlSession session=getSqlSessionFactory().openSession();
+        try{
+            EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
+
         }catch (Exception e)
         {
             e.printStackTrace();
