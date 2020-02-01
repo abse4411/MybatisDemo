@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -266,11 +267,13 @@ public class MybatisTest {
             Employee employee=new Employee();
 //            employee.setId(1);
 //            employee.setLastName("%D%");
-            employee.setEmail("1858489@qq.com");
+//            employee.setEmail("1858489@qq.com");
 //            employee.setGender("0");
 //            List<Employee> emps = mapper.getEmpsByConditionIf(employee);
 //            List<Employee> emps = mapper.getEmpsByConditionTrim(employee);
-            List<Employee> emps = mapper.getEmpsByConditionChoose(employee);
+//            List<Employee> emps = mapper.getEmpsByConditionChoose(employee);
+
+            List<Employee> emps = mapper.getEmpsByConditionForeach(Arrays.asList(1, 2, 3, 4));
             for(Employee emp : emps)
                 System.out.println(emp);
             Assert.assertTrue(emps.size()>0);
