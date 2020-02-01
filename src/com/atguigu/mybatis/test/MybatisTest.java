@@ -12,10 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MybatisTest {
 
@@ -49,7 +46,9 @@ public class MybatisTest {
         // sql的唯一标识：statement Unique identifier matching the statement to use.
         // 执行sql要用的参数：parameter A parameter object to pass to the statement.
         try{
-            Employee employee = session.selectOne("com.atguigu.mybatis.employee.selectEmployee", 1);
+            Employee employee = session
+                    .selectOne("com.atguigu.mybatis.dao.EmployeeMapper.getEmpById",
+                            1);
             System.out.println(employee);
             Assert.assertNotNull(employee);
         }catch (Exception e)
@@ -162,7 +161,7 @@ public class MybatisTest {
             map.put("tableName", "tbl_employee");
             Employee employee = mapper.getEmpByMap(map);
             System.out.println(employee);
-            Assert.assertNull(employee);
+            Assert.assertNotNull(employee);
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -298,6 +297,32 @@ public class MybatisTest {
 //            employee.setGender("0");
 
             Integer result = mapper.partiallyUpdateEmp(employee);
+            session.commit();
+            System.out.println("Affected rows:"+result);
+            Assert.assertTrue(result>0);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail();
+        }finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void testDynamicSql2() throws IOException {
+        SqlSession session=getSqlSessionFactory().openSession();
+        try{
+            EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
+            List<Employee> emps=new ArrayList<Employee>(5);
+            for (int i = 0; i < 5; i++) {
+                emps.add(new Employee(null,
+                        UUID.randomUUID().toString().substring(0, 5),
+                        String.valueOf(i % 2),
+                        UUID.randomUUID().toString().substring(0, 8)+"@qq.com.",
+                        i+1));
+            }
+            Integer result = mapper.addEmps(emps);
             session.commit();
             System.out.println("Affected rows:"+result);
             Assert.assertTrue(result>0);
