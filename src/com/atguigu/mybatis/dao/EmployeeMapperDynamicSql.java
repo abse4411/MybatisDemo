@@ -9,4 +9,5 @@ public interface EmployeeMapperDynamicSql {
     List<Employee> getEmpsByConditionIf(Employee employee);
     List<Employee> getEmpsByConditionTrim(Employee employee);
     List<Employee> getEmpsByConditionChoose(Employee employee);
+    Integer partiallyUpdateEmp(Employee employee);
 }

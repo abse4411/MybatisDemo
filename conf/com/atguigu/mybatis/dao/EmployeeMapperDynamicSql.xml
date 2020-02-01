@@ -96,4 +96,35 @@
         </where>
     </select>
 
+    <update id="partiallyUpdateEmp">
+        update tbl_employee
+        <set>
+            <if test="lastName!=null">
+                last_name=#{lastName},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+            <if test="gender!=null">
+                gender=#{gender}
+            </if>
+        </set>
+        where id=#{id}
+        <!--
+		Trim：更新拼串
+		update tbl_employee
+		<trim prefix="set" suffixOverrides=",">
+			<if test="lastName!=null">
+				last_name=#{lastName},
+			</if>
+			<if test="email!=null">
+				email=#{email},
+			</if>
+			<if test="gender!=null">
+				gender=#{gender}
+			</if>
+		</trim>
+		where id=#{id}  -->
+    </update>
+
 </mapper>
