@@ -264,12 +264,13 @@ public class MybatisTest {
         try{
             EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
             Employee employee=new Employee();
-//            employee.setId(1);
-            employee.setLastName("%D%");
+            employee.setId(1);
+//            employee.setLastName("%D%");
 //            employee.setEmail("%8%");
 //            employee.setGender("0");
 //            List<Employee> emps = mapper.getEmpsByConditionIf(employee);
-            List<Employee> emps = mapper.getEmpsByConditionTrim(employee);
+//            List<Employee> emps = mapper.getEmpsByConditionTrim(employee);
+            List<Employee> emps = mapper.getEmpsByConditionChoose(employee);
             for(Employee emp : emps)
                 System.out.println(emp);
             Assert.assertTrue(emps.size()>0);

@@ -27,7 +27,7 @@
                 and last_name like #{lastName}
             </if>
             <if test="email!=null &amp;&amp; email.trim()!=&quot;&quot;">
-                and email like #{email}
+                and email = #{email}
             </if>
             <if test="gender==0 or gender==1">
                 and gender like #{gender}
@@ -74,4 +74,26 @@
             </if>
         </trim>
     </select>
+
+    <!-- public List<Employee> getEmpsByConditionChoose(Employee employee); -->
+    <select id="getEmpsByConditionChoose" resultType="employee">
+        select * from tbl_employee
+        <where>
+            <choose>
+                <when test="id!=null">
+                    id=#{id}
+                </when>
+                <when test="lastName!=null">
+                    last_name like #{lastName}
+                </when>
+                <when test="email!=null">
+                    email=#{email}
+                </when>
+                <otherwise>
+                    gender = 0
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
 </mapper>
