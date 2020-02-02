@@ -1,6 +1,8 @@
 package com.atguigu.mybatis.bean;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
     private Integer id;
     private String lastName;
     private String gender;
@@ -27,7 +29,6 @@ public class Employee {
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
                 ", dId=" + dId +
-                ", dept=" + dept +
                 '}';
     }
 

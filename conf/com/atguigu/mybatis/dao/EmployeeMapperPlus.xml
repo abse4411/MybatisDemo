@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperPlus">
+<!--    <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache>-->
+<!--    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>-->
+    <!-- 引用缓存：namespace：指定和哪个名称空间下的缓存一样 -->
+    <cache-ref namespace="com.atguigu.mybatis.dao.EmployeeMapper"/>
     <!--自定义某个javaBean的封装规则
         type：自定义规则的Java类型
         id:唯一id方便引用-->
@@ -74,6 +78,7 @@
         <result column="last_name" property="lastName"/>
         <result column="email" property="email"/>
         <result column="gender" property="gender"/>
+        <result column="d_id" property="dId"/>
         <!-- association定义关联对象的封装规则
             select:表明当前属性是调用select指定的方法查出的结果
             column:指定将哪一列的值传给这个方法

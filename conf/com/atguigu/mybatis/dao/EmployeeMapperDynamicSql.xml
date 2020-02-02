@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamicSql">
+    <!-- 引用缓存：namespace：指定和哪个名称空间下的缓存一样 -->
+    <cache-ref namespace="com.atguigu.mybatis.dao.EmployeeMapper"/>
     <!--
     • if:判断
     • choose (when, otherwise):分支选择；带了break的swtich-case
@@ -154,7 +156,7 @@
     <!--public void addEmps(@Param("emps")List<Employee> emps);  -->
     <!--MySQL下批量保存：可以foreach遍历   mysql支持values(),(),()语法-->
     <insert id="addEmps" >
-        insert into tbl_employee(last_name,email,gender,d_id)
+        insert into tbl_employee(<include refid="insertColumn"></include>)
         values
         <foreach collection="emps" item="emp" separator=",">
             (#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dId})
@@ -241,4 +243,21 @@
             </if>
         </if>
     </select>
+
+    <!--
+    抽取可重用的sql片段。方便后面引用
+    1、sql抽取：经常将要查询的列名，或者插入用的列名抽取出来方便引用
+    2、include来引用已经抽取的sql：
+    3、include还可以自定义一些property，sql标签内部就能使用自定义的属性
+            include-property：取值的正确方式${prop},
+            #{不能使用这种方式}
+-->
+    <sql id="insertColumn">
+        <if test="_databaseId=='oracle'">
+            employee_id,last_name,email
+        </if>
+        <if test="_databaseId=='mysql'">
+            last_name,email,gender,d_id
+        </if>
+    </sql>
 </mapper>

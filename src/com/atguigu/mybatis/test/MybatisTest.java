@@ -315,7 +315,7 @@ public class MybatisTest {
         try{
             EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
             List<Employee> emps=new ArrayList<Employee>(5);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 2; i++) {
                 emps.add(new Employee(null,
                         UUID.randomUUID().toString().substring(0, 5),
                         String.valueOf(i % 2),
