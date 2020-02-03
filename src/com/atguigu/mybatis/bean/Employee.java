@@ -13,6 +13,13 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
+    public Employee(String lastName, String gender, String email, Integer dId) {
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.dId = dId;
+    }
+
     public Employee(Integer id, String lastName, String gender, String email, Integer dId) {
         this.id = id;
         this.lastName = lastName;

@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -187,6 +188,35 @@ public class MybatisTest1 {
             Assert.fail();
         }finally {
             session1.close();
+        }
+
+    }
+
+    @Test
+    public void testBatch() throws IOException{
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+
+        //可以执行批量操作的sqlSession
+        SqlSession openSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+//        SqlSession openSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE);
+        long start = System.currentTimeMillis();
+        try{
+            EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+            for (int i = 0; i < 100; i++) {
+                mapper.addEmp(new Employee(null,
+                        UUID.randomUUID().toString().substring(0, 5),
+                        String.valueOf(i % 2),
+                        UUID.randomUUID().toString().substring(0, 8)+"@qq.com.",
+                        i%5+1));
+            }
+            openSession.commit();
+            long end = System.currentTimeMillis();
+            //批量：（预编译sql一次==>设置参数===>10000次===>执行（1次））
+            //Parameters: 616c1(String), b(String), 1(String)==>4598
+            //非批量：（预编译sql=设置参数=执行）==》10000    10200
+            System.out.println("执行时长："+(end-start));
+        }finally{
+            openSession.close();
         }
 
     }
