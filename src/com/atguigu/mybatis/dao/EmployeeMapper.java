@@ -22,4 +22,7 @@ public interface EmployeeMapper {
     Integer updateEmp(Employee emp);
 
     Integer deleteEmp(Integer id);
+
+    public void getPageByProcedure(OraclePage page);
+
 }

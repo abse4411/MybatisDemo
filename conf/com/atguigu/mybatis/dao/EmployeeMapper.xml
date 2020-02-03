@@ -172,4 +172,24 @@
 <!--    <select id="selectEmployee" resultType="com.atguigu.mybatis.bean.Employee">-->
 <!--        select id,last_name lastName,gender,email from tbl_employee where id = #{id}-->
 <!--    </select>-->
+
+
+    <!-- public void getPageByProcedure();
+1、使用select标签定义调用存储过程
+2、statementType="CALLABLE":表示要调用存储过程
+3、{call procedure_name(params)}
+-->
+    <select id="getPageByProcedure" statementType="CALLABLE" databaseId="oracle">
+		{call hello_test(
+			#{start,mode=IN,jdbcType=INTEGER},
+			#{end,mode=IN,jdbcType=INTEGER},
+			#{count,mode=OUT,jdbcType=INTEGER},
+			#{emps,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=PageEmp}
+		)}
+	</select>
+    <resultMap type="com.atguigu.mybatis.bean.Employee" id="PageEmp">
+        <id column="EMPLOYEE_ID" property="id"/>
+        <result column="LAST_NAME" property="email"/>
+        <result column="EMAIL" property="email"/>
+    </resultMap>
 </mapper>
